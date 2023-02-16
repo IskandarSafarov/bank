@@ -81,6 +81,8 @@ func AddBonus(card *types.Card, percent int, daysInMonth int, daysInYear int) {
 	return
 }
 
+// Total вычисляет общую сумму средств на всех картах.
+// Отрицательные суммы и суммы на заблокированных картах игнорируются. 
 func Total(cards []types.Card) types.Money {
 	summ := types.Money(0)
 	for _, card := range cards {
@@ -96,3 +98,8 @@ func Total(cards []types.Card) types.Money {
 	}
 	return summ
 }
+
+
+//func PaymentSources(cards []types.Card) []types.PaymentSource  {
+	
+//}
