@@ -23,7 +23,7 @@ func ExampleWithdraw_noMoney() {
 func ExampleWithdraw_inactive() {
 	result := Withdraw(types.Card{Balance: 20_000_00, Active: false}, 10_000_00)
 	fmt.Println(result.Balance)
-	// Output: 3000000
+	// Output: 2000000
 }
 
 // ExampleWithdraw_limit Попытка снятие баланса больше лимита(20 000сомони)
@@ -47,7 +47,7 @@ func ExampleDeposit_inactive() {
 	card := types.Card{Balance: -10_000_00, Active: false}
 	Deposit(&card, 50_000_00)
 	fmt.Println(card.Balance)
-	// Output: 4000000
+	// Output: -1000000
 }
 
 // ExampleDeposit_limit Успешное зачисление стредств до 50 000сомони
@@ -80,7 +80,7 @@ func ExampleAddBonus_noactive() {
 	card := types.Card{Balance: 10_000_00, Active: false, MinBalance: 10000}
 	AddBonus(&card, 3, 30, 365)
 	fmt.Println(card.Balance)
-	// Output: 1000024
+	// Output: 1000000
 }
 
 // ExampleAddBonus_negativeBalance Попытка зачислить зачислить на карту с отрицательным балансом
@@ -88,7 +88,7 @@ func ExampleAddBonus_negativeBalance() {
 	card := types.Card{Balance: -10_000_00, Active: true, MinBalance: 10000}
 	AddBonus(&card, 3, 30, 365)
 	fmt.Println(card.Balance)
-	// Output: 1000024
+	// Output: -1000000
 }
 
 // ExampleAddBonus_moreBonus Попытка зачислить бонус более 5_000 сомони
@@ -96,7 +96,7 @@ func ExampleAddBonus_moreBonus() {
 	card := types.Card{Balance: 1000000, Active: true, MinBalance: 100_000_000_00}
 	AddBonus(&card, 3, 30, 365)
 	fmt.Println(card.Balance)
-	// Output: 1500002
+	// Output: 1500000
 }
 
 func ExampleTotal() {
@@ -118,4 +118,22 @@ func ExampleTotal() {
 	fmt.Println(Total(cards))
 	//Output: 3000000
 
+}
+
+func ExamplePaymentSource() {
+	cards := []types.Card{
+		{
+			Balance: 1_000_00,
+			Active:  true,
+			PAN:     "5058",
+		},
+		{
+			Balance: 2_000_00,
+			Active:  true,
+			PAN:     "good",
+		},
+	}
+	paySource := PaymentSources(cards)
+	fmt.Println(len(paySource))
+	// Output: 2
 }
